@@ -1,4 +1,5 @@
-import { type HTMLAttributes } from 'react'
+'use client'
+import { useEffect, useState, type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { SearchIcon } from 'lucide-react'
@@ -11,14 +12,35 @@ export function ProductSearchInput({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   const { term, handleTermChange } = useProductsSearchParams()
+  const [inputValue, setInputValue] = useState(term)
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  )
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setInputValue(value)
+
+    //이전에 설정된 타이머가 있다면, 그 타이머를 취소하여 불필요한 API 호출을 방지한다
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout)
+    }
+
+    const timeout = setTimeout(() => {
+      handleTermChange(value)
+    }, 300) // 300ms 후에 API 요청
+    setDebounceTimeout(timeout)
+  }
+
+  useEffect(() => {
+    setInputValue(term)
+  }, [term])
 
   return (
     <main className={cn('relative', className)} {...props}>
       <Input
-        value={term}
-        onChange={async (e) => {
-          await handleTermChange(e.target.value)
-        }}
+        value={inputValue}
+        onChange={handleChange}
         className={'h-12 pl-12 text-base'}
         placeholder={'Search product'}
       />
