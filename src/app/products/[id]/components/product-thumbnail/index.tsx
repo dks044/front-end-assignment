@@ -26,7 +26,7 @@ export function ProductThumbnail({
     slideImages[0]?.src || thumbnail
   )
 
-  // currentIndex에 따라 현재 이미지를 업데이트
+  //슬라이드쇼 이미지 업데이트
   useEffect(() => {
     setCurrentImage(slideImages[currentIndex]?.src || thumbnail)
   }, [currentIndex, slideImages, thumbnail])
@@ -47,16 +47,16 @@ export function ProductThumbnail({
   )
 
   return (
-    <article className="relative flex w-full items-center justify-center rounded-md ring-1 ring-lime-600">
+    <article className="relative flex h-[29rem] w-full items-center justify-center rounded-md ring-1 ring-lime-600">
       <div className="absolute left-5 top-5 font-bold text-red-500">
         <Badge variant={'destructive'}>{discountPercentage}% Sale</Badge>
       </div>
-      <div className="relative ml-2 h-64 w-full lg:size-[25rem]">
+      <div className="relative ml-2 h-64 w-full overflow-hidden lg:size-[25rem]">
         <Image
           fill
           alt="Thumbnail"
           src={currentImage}
-          className="object-cover transition"
+          className="object-cover"
           priority
           //스켈레톤 UI
           placeholder="blur"
