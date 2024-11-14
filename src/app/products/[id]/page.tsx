@@ -3,6 +3,7 @@
 import { use } from 'react'
 import { useProduct } from '@/app/products/[id]/hooks/use-product'
 import { ProductThumbnail } from './components/product-thumbnail'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export interface ProductDetailPageProps {
   params: Promise<{ id: string }>
@@ -14,7 +15,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { data, isLoading, error } = useProduct(id)
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex h-96 w-full items-center justify-center">
+        <ClipLoader color="#15cf97" size={100} />
+      </div>
+    )
   }
 
   if (error) {
@@ -22,12 +27,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   }
 
   return (
-    <div>
+    <main>
       {data && (
         <div className="flex gap-5">
           <div className="h-64 flex-1">
             <ProductThumbnail
               ProductThumbnail={{
+                id: data.id,
                 thumbnail: data.thumbnail,
                 images: data.images,
                 discountPercentage: data.discountPercentage,
@@ -45,6 +51,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </div>
         </div>
       )}
-    </div>
+    </main>
   )
 }

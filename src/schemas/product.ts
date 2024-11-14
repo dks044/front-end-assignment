@@ -61,6 +61,7 @@ export const productDetailSchema = z.object({
 })
 //상품 썸네일&이미지 컴포넌트 스키마
 export const productDetailThumbnailSchema = z.object({
+  id: z.number(),
   thumbnail: z.string(),
   images: z.array(z.string()),
   discountPercentage: z.number(),

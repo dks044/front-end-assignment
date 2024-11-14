@@ -28,7 +28,7 @@ export function ProductSearchInput({
 
     const timeout = setTimeout(() => {
       handleTermChange(value)
-    }, 300) // 300ms 후에 API 요청
+    }, 300)
     setDebounceTimeout(timeout)
   }
 
