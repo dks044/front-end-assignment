@@ -59,5 +59,15 @@ export const productDetailSchema = z.object({
   images: z.array(z.string()),
   thumbnail: z.string(),
 })
+//상품 썸네일&이미지 컴포넌트 스키마
+export const productDetailThumbnailSchema = z.object({
+  thumbnail: z.string(),
+  images: z.array(z.string()),
+  discountPercentage: z.number(),
+})
+
+export type ProductDetailThumbnail = z.infer<
+  typeof productDetailThumbnailSchema
+>
 
 export type ProductDetail = z.infer<typeof productDetailSchema>

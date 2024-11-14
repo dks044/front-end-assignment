@@ -2,6 +2,7 @@
 
 import { use } from 'react'
 import { useProduct } from '@/app/products/[id]/hooks/use-product'
+import { ProductThumbnail } from './components/product-thumbnail'
 
 export interface ProductDetailPageProps {
   params: Promise<{ id: string }>
@@ -22,7 +23,28 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   return (
     <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {data && (
+        <div className="flex gap-5">
+          <div className="h-64 flex-1">
+            <ProductThumbnail
+              ProductThumbnail={{
+                thumbnail: data.thumbnail,
+                images: data.images,
+                discountPercentage: data.discountPercentage,
+              }}
+            />
+          </div>
+          <div className="flex-1">
+            <p>title</p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus
+              ratione veritatis repudiandae quae, officiis voluptates nihil
+              saepe dignissimos repellat velit, provident placeat fugiat ea nisi
+              facilis molestias iure quos magni.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
