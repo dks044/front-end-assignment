@@ -19,7 +19,10 @@ export function ProductReviewsModal({
       <h2 className="text-lg font-semibold">Product Reviews</h2>
       <div className="mt-4">
         {reviews.map((review) => (
-          <div key={review.reviewerEmail} className="mb-4 border-b p-4">
+          <div
+            key={`${review.reviewerEmail}-${review.date}`}
+            className="mb-4 border-b p-4"
+          >
             <div className="flex items-center">
               <RatingStars rating={review.rating} />
               <span className="ml-2 text-sm text-gray-600">
