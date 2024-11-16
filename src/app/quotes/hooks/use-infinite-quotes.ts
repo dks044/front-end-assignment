@@ -30,7 +30,12 @@ export const useInfiniteQuotes = (isBottom: boolean) => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      setQuotes((prev) => [...prev, ...data.quotes])
+      setQuotes((prev) => {
+        const newQuotes = data.quotes.filter(
+          (newQuote: QuoteListItem) => !prev.some((q) => q.id === newQuote.id)
+        )
+        return [...prev, ...newQuotes]
+      })
     }
   }, [isSuccess, data])
 
