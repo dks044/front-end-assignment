@@ -4,8 +4,7 @@ import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { SearchIcon } from 'lucide-react'
 import { useProductsSearchParams } from '@/app/products/(list)/hooks/use-products-search-params'
-
-// TODO: 현재 검색창이 제대로 동작하지 않습니다. 수정해주세요.
+import { useDebounce } from '../../hooks/use-debounce'
 
 export function ProductSearchInput({
   className,
@@ -13,28 +12,21 @@ export function ProductSearchInput({
 }: HTMLAttributes<HTMLDivElement>) {
   const { term, handleTermChange } = useProductsSearchParams()
   const [inputValue, setInputValue] = useState(term)
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
-    null
-  )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setInputValue(value)
-
-    //이전에 설정된 타이머가 있다면, 그 타이머를 취소하여 불필요한 API 호출을 방지한다
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout)
-    }
-
-    const timeout = setTimeout(() => {
-      handleTermChange(value)
-    }, 300)
-    setDebounceTimeout(timeout)
-  }
+  const debouncedValue = useDebounce(inputValue, 300)
 
   useEffect(() => {
     setInputValue(term)
   }, [term])
+
+  useEffect(() => {
+    handleTermChange(debouncedValue)
+  }, [debouncedValue, handleTermChange])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setInputValue(value)
+  }
 
   return (
     <main className={cn('relative', className)} {...props}>
