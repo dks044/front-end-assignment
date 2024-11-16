@@ -7,6 +7,7 @@ import { FaCircle } from 'react-icons/fa'
 import clsx from 'clsx'
 import { Badge } from '@/components/ui/badge'
 import { useSlider } from '../../hooks/use-slider'
+import { BLUR_DATA_URL } from '@/constants'
 
 export interface ProductThumbnailProps {
   ProductThumbnail: ProductDetailThumbnail
@@ -34,7 +35,7 @@ export function ProductThumbnail({
           priority
           // 스켈레톤 UI
           placeholder="blur"
-          blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+          blurDataURL={BLUR_DATA_URL}
         />
       </div>
       {/* 슬라이드쇼 화살표 버튼 */}

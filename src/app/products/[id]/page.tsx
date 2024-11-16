@@ -43,6 +43,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             />
           </section>
 
+          {/* 상품 정보 */}
           <aside className="flex flex-1 flex-col space-y-2">
             <ProductDetail productDetail={data} />
           </aside>
