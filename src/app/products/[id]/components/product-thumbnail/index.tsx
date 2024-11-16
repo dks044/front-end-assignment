@@ -1,11 +1,12 @@
 'use client'
-import React, { HTMLAttributes, useCallback, useEffect, useState } from 'react'
+import React, { HTMLAttributes } from 'react'
 import { ProductDetailThumbnail } from '@/schemas/product'
 import Image from 'next/image'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import { FaCircle } from 'react-icons/fa'
 import clsx from 'clsx'
 import { Badge } from '@/components/ui/badge'
+import { useSlider } from '../../hooks/use-slider'
 
 export interface ProductThumbnailProps {
   ProductThumbnail: ProductDetailThumbnail
@@ -14,37 +15,10 @@ export interface ProductThumbnailProps {
 export function ProductThumbnail({
   ProductThumbnail,
 }: ProductThumbnailProps & HTMLAttributes<HTMLDivElement>) {
-  const { thumbnail, images, discountPercentage } = ProductThumbnail
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const slideImages = images.map((src, index) => ({
-    index,
-    src,
-  }))
+  const { images, discountPercentage } = ProductThumbnail
+  const slideImages = images.map((src) => src) // 이미지 URL 배열
 
-  // 초기 상태 설정(썸네일)
-  const [currentImage, setCurrentImage] = useState<string>(
-    slideImages[0]?.src || thumbnail
-  )
-
-  //슬라이드쇼 이미지 업데이트
-  useEffect(() => {
-    setCurrentImage(slideImages[currentIndex]?.src || thumbnail)
-  }, [currentIndex, slideImages, thumbnail])
-
-  const handleSlide = useCallback(
-    (action: string) => {
-      setCurrentIndex((prevIndex) => {
-        if (action === 'prev') {
-          return prevIndex === 0 ? slideImages.length - 1 : prevIndex - 1
-        }
-        if (action === 'next') {
-          return prevIndex === slideImages.length - 1 ? 0 : prevIndex + 1
-        }
-        return prevIndex
-      })
-    },
-    [slideImages.length]
-  )
+  const { currentImage, handleSlide } = useSlider(slideImages, 0)
 
   return (
     <article className="relative flex h-[29rem] w-full items-center justify-center rounded-md ring-1 ring-lime-600">
@@ -58,7 +32,7 @@ export function ProductThumbnail({
           src={currentImage}
           className="object-cover"
           priority
-          //스켈레톤 UI
+          // 스켈레톤 UI
           placeholder="blur"
           blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
         />
@@ -77,11 +51,11 @@ export function ProductThumbnail({
         />
       </div>
       <div className="absolute bottom-1 flex justify-center gap-1">
-        {slideImages.map((image) => (
-          <div key={image.index}>
+        {slideImages.map((image, index) => (
+          <div key={index}>
             <FaCircle
               className={clsx(
-                image.src === currentImage ? 'text-gray-900' : 'text-gray-400',
+                image === currentImage ? 'text-gray-900' : 'text-gray-400',
                 `transition`
               )}
             />
