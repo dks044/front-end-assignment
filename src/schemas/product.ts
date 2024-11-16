@@ -36,6 +36,8 @@ const reviewSchema = z.object({
   reviewerEmail: z.string(),
 })
 
+export type Review = z.infer<typeof reviewSchema>
+
 export const productDetailSchema = z.object({
   id: z.number(),
   title: z.string(),

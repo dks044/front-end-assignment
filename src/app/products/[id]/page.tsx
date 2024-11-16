@@ -4,7 +4,7 @@ import { use } from 'react'
 import { useProduct } from '@/app/products/[id]/hooks/use-product'
 import { ProductThumbnail } from './components/product-thumbnail'
 import ClipLoader from 'react-spinners/ClipLoader'
-import { ProductDetail } from './components/product-detail.tsx'
+import { ProductDetail } from './components/product-detail'
 
 export interface ProductDetailPageProps {
   params: Promise<{ id: string }>
