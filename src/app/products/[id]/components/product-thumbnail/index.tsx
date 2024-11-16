@@ -25,7 +25,7 @@ export function ProductThumbnail({
       <div className="absolute left-5 top-5 font-bold text-red-500">
         <Badge variant={'destructive'}>{discountPercentage}% Sale</Badge>
       </div>
-      <div className="relative ml-2 h-64 w-full overflow-hidden lg:size-[25rem]">
+      <div className="relative ml-2 size-64 overflow-hidden lg:size-[25rem]">
         <Image
           fill
           alt="Thumbnail"
