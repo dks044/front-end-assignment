@@ -1,24 +1,38 @@
-import { type HTMLAttributes } from 'react'
+'use client'
+import { useEffect, useState, type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { SearchIcon } from 'lucide-react'
 import { useProductsSearchParams } from '@/app/products/(list)/hooks/use-products-search-params'
-
-// TODO: 현재 검색창이 제대로 동작하지 않습니다. 수정해주세요.
+import { useDebounce } from '../../hooks/use-debounce'
 
 export function ProductSearchInput({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   const { term, handleTermChange } = useProductsSearchParams()
+  const [inputValue, setInputValue] = useState(term)
+
+  const debouncedValue = useDebounce(inputValue, 300)
+
+  useEffect(() => {
+    setInputValue(term)
+  }, [term])
+
+  useEffect(() => {
+    handleTermChange(debouncedValue)
+  }, [debouncedValue, handleTermChange])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setInputValue(value)
+  }
 
   return (
     <main className={cn('relative', className)} {...props}>
       <Input
-        value={term}
-        onChange={async (e) => {
-          await handleTermChange(e.target.value)
-        }}
+        value={inputValue}
+        onChange={handleChange}
         className={'h-12 pl-12 text-base'}
         placeholder={'Search product'}
       />

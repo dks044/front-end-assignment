@@ -36,6 +36,8 @@ const reviewSchema = z.object({
   reviewerEmail: z.string(),
 })
 
+export type Review = z.infer<typeof reviewSchema>
+
 export const productDetailSchema = z.object({
   id: z.number(),
   title: z.string(),
@@ -59,5 +61,16 @@ export const productDetailSchema = z.object({
   images: z.array(z.string()),
   thumbnail: z.string(),
 })
+//상품 썸네일&이미지 컴포넌트 스키마
+export const productDetailThumbnailSchema = z.object({
+  id: z.number(),
+  thumbnail: z.string(),
+  images: z.array(z.string()),
+  discountPercentage: z.number(),
+})
+
+export type ProductDetailThumbnail = z.infer<
+  typeof productDetailThumbnailSchema
+>
 
 export type ProductDetail = z.infer<typeof productDetailSchema>
