@@ -1,11 +1,9 @@
 'use client'
 import { useFavoriteQuotes } from '@/app/quotes/hooks/use-favorite-quotes'
 import { QuoteCard } from '@/app/quotes/components/quote-card'
-import useSetQuotes from '../hooks/use-set-quotes'
 
 export default function FavoriteQuotesPage() {
-  const { userQuotes } = useFavoriteQuotes()
-  const setQuotes = useSetQuotes()
+  const { userQuotes, setQuotes } = useFavoriteQuotes()
 
   return (
     <div>
