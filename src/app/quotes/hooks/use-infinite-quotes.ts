@@ -3,15 +3,16 @@ import { QuoteListItem } from '@/schemas/quotes'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
-export const useInfiniteQuotes = (isBottom: boolean) => {
+export const useInfiniteQuotes = (isScroll: boolean, mount: boolean) => {
+  const [onMounted, setOnMounted] = useState(mount)
   const [sequence, setSequence] = useState<number>(-1)
   const [quotes, setQuotes] = useState<QuoteListItem[]>([])
 
   useEffect(() => {
-    if (isBottom) {
+    if (isScroll) {
       setSequence((prev) => prev + 1)
     }
-  }, [isBottom])
+  }, [isScroll])
 
   const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['quotes', sequence],
@@ -23,9 +24,11 @@ export const useInfiniteQuotes = (isBottom: boolean) => {
       if (res.status === 'error') {
         throw new Error(res.error)
       }
+      setOnMounted(false)
       return res.data
     },
-    enabled: isBottom,
+    //초기 상태이거나, 스크롤 이벤트가 발생했을떄만
+    enabled: isScroll || onMounted,
   })
 
   useEffect(() => {

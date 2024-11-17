@@ -2,16 +2,14 @@
 
 import { useInfiniteQuotes } from '@/app/quotes/hooks/use-infinite-quotes'
 import { QuoteCard } from '@/app/quotes/components/quote-card'
-import { useRef } from 'react'
-import { useIsBottom } from '../hooks/use-is-bottom'
 import { QuoteListItem } from '@/schemas/quotes'
 import { useFavoriteQuotes } from '../hooks/use-favorite-quotes'
 import useSetQuotes from '../hooks/use-set-quotes'
+import { useIsScroll } from '../hooks/use-is-scroll'
 
 export default function QuotesPage() {
-  const bottomRef = useRef(null)
-  const isBottom = useIsBottom(bottomRef)
-  const { quotes, isLoading } = useInfiniteQuotes(isBottom)
+  const isScroll = useIsScroll()
+  const { quotes, isLoading } = useInfiniteQuotes(isScroll, true)
   const { userQuotes } = useFavoriteQuotes()
   const setQuotes = useSetQuotes()
 
@@ -34,7 +32,6 @@ export default function QuotesPage() {
           onFavorite={() => setQuotes(quote)}
         />
       ))}
-      <div ref={bottomRef} />
     </>
   )
 }

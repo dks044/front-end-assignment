@@ -1,8 +1,10 @@
+'use client'
 import { QuoteListItem } from '@/schemas/quotes'
 import { useEffect, useState } from 'react'
 
 export const useFavoriteQuotes = () => {
   const [userQuotes, setUserQuotes] = useState<QuoteListItem[]>([])
+
   const userFavoriteQuotes = localStorage.getItem('userQuotes')
 
   useEffect(() => {
